@@ -10,3 +10,29 @@
  * Next, join the film, inventory, rental, and customer tables.
  * Use a where clause to restrict results to the subquery.
  */
+
+SELECT DISTINCT c.customer_id
+FROM customer c
+JOIN rental r
+    ON c.customer_id = r.customer_id
+JOIN inventory i
+    ON r.inventory_id = i.inventory_id
+WHERE i.film_id IN (
+    SELECT 
+        film_id
+    FROM (
+        SELECT 
+            film_id,
+            SUM(p.amount) AS profit
+        FROM payment p
+        JOIN rental r
+            ON p.rental_id = r.rental_id
+        JOIN inventory i
+            ON r.inventory_id = i.inventory_id
+        GROUP BY film_id
+        ORDER BY profit DESC
+        LIMIT 5
+    ) AS profitable_films
+)
+ORDER BY c.customer_id;
+
