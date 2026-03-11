@@ -23,4 +23,6 @@ JOIN
 JOIN
     payment p ON r.rental_id = p.rental_id
 GROUP BY
-    unnest(special_features);
+   unnest(special_features)
+ORDER BY
+    special_feature;
