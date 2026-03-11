@@ -11,16 +11,16 @@
  */
 
 
-SELECT 
-    unnest(special_features) AS special_feature, 
+SELECT
+    unnest(special_features) AS special_feature,
     SUM(p.amount) AS profit
-FROM 
+FROM
     film f
-JOIN 
+JOIN
     inventory i ON f.film_id = i.film_id
-JOIN 
+JOIN
     rental r ON i.inventory_id = r.inventory_id
-JOIN 
+JOIN
     payment p ON r.rental_id = p.rental_id
-GROUP BY 
+GROUP BY
     unnest(special_features);
